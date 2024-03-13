@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using static BlazorApp.UserService;
 
 namespace BlazorApp
 {
@@ -23,6 +24,11 @@ namespace BlazorApp
         {
             Console.WriteLine($"Disconnected {e?.Message} {Context.ConnectionId}");
             await base.OnDisconnectedAsync(e);
+        }
+
+        public async Task Private(string from, string to, string message)
+        {
+            await Clients.Client(to).SendAsync("Private", from, message);
         }
     }
 }
